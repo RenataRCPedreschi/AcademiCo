@@ -15,8 +15,11 @@ authenticate(connection); //efetivar a conexão
 //Definição de rotas
 
 const rotaProfessores = require ("./routes/professores")
+const rotaAlunos = require ("./routes/alunos")
 
 app.use(rotaProfessores);
+app.use(rotaAlunos);
+
 
 
 //Escuta dos eventos(listen)
