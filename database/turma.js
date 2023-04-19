@@ -14,3 +14,10 @@ codTurma:{
 
     
 });
+
+const Aluno = require("./aluno");
+
+Turma.hasMany(Aluno);
+Aluno.belongsTo(Turma);
+
+module.exports = Turma;

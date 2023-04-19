@@ -27,4 +27,9 @@ numMatr:{
 
 },
     
+
+
+
 });
+
+module.exports = Aluno;
