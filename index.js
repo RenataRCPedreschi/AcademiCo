@@ -16,9 +16,11 @@ authenticate(connection); //efetivar a conexão
 
 const rotaProfessores = require ("./routes/professores")
 const rotaAlunos = require ("./routes/alunos")
+const rotaTurmas = require("./routes/turmas");
 
 app.use(rotaProfessores);
 app.use(rotaAlunos);
+app.use(rotaTurmas);
 
 
 
