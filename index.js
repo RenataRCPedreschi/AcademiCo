@@ -14,7 +14,9 @@ authenticate(connection); //efetivar a conexão
 
 //Definição de rotas
 
+const rotaProfessores = require ("./routes/professores")
 
+app.use(rotaProfessores);
 
 
 //Escuta dos eventos(listen)
