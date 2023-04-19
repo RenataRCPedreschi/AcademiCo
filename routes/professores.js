@@ -1,25 +1,23 @@
-const Professor = require ("../database/professor");
+const Professor = require("../database/professor");
+const {Router} = require("express")
 
-const {Router} = require ("express");
+const router = Router();
 
-const router = Router()
+router.post("/professores", async (req, res) => {
+    const {nome, dataNasc, telefone, email} = req.body;
 
-router.get("/professores", async (req,res) => {
-    const listaProfessores = await Professor.findAll();
-    res.json(listaProfessores);
-});
+    try{ 
+        const novoProf = await Professor.create(
+            {nome, dataNasc, telefone, email},
 
-router.get("/professor/:id", async (req, res) => {
-    const professor = await Professor.findOne({ where: { id:req.params.id }
-    })
+        );
 
-    if(professor){
-        res.json(professor);
-    } else {
-        res.status(404).json({message:"Professor não cadastrado!"})
+        res.status(201).json(novoProf);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({message: "Não foi possível cadastrar um novo professor."});
     }
 
-})
+});
 
-
-module.exports = router;
+module.exports =router; 
