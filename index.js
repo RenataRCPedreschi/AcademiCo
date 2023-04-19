@@ -13,8 +13,8 @@ const { connection, authenticate } = require("./database/database");
 authenticate(connection); //efetivar a conexão
 
 //Definição de rotas
-
-
+const rotasProfessores = require("./routes/professores");
+app.use(rotasProfessores);
 
 
 //Escuta dos eventos(listen)
