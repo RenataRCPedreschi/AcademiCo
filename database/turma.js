@@ -7,11 +7,6 @@ codTurma:{
     type:DataTypes.STRING,
     allowNull: false,
 },
-
-
-
-
-
     
 });
 

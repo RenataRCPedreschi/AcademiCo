@@ -22,7 +22,7 @@ email:{
     allowNull:false,
 },
 
-    
+
 });
 
 Professor.hasOne(Turma);
