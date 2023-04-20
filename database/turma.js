@@ -7,7 +7,14 @@ codTurma:{
     type:DataTypes.STRING,
     allowNull: false,
 },
-    
+turno:{
+    type: DataTypes.STRING,
+    allowNull: false,
+}, 
+disciplina: {
+    type: DataTypes.STRING,
+    allowNull: false,
+}
 });
 
 const Aluno = require("./aluno");

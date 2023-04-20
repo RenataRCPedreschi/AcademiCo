@@ -51,6 +51,7 @@ router.put('/alunos/:id', async (req, res) => {
         { nome, dataNasc, telefone, email, numMatr },
         { where: { id: req.params.id } }
       );
+      res.status(200).json({message:"Aluno atualizado com sucesso!"});
     } else {
       res.status(404).json({ message: 'aluno não foi encontrado' });
     }
