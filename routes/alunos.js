@@ -9,7 +9,7 @@ router.get('/alunos', async (req, res) => {
   res.status(200).json(listaAlunos);
 });
 
-router.get('/alunos/:id', async (req, res) => {
+router.get('/aluno/:id', async (req, res) => {
   const aluno = await Aluno.findOne({
     where: { id: req.params.id }
   });
@@ -23,7 +23,7 @@ router.get('/alunos/:id', async (req, res) => {
 
 
 
-router.post("/alunos", async (req, res) => {
+router.post("/aluno", async (req, res) => {
   const { nome, dataNasc, telefone, email, numMatr, turmaId } = req.body;
 
   try {
@@ -42,7 +42,7 @@ router.post("/alunos", async (req, res) => {
   }
 });
 
-router.put('/alunos/:id', async (req, res) => {
+router.put('/aluno/:id', async (req, res) => {
   const { nome, dataNasc, telefone, email, numMatr } = req.body;
   const aluno = await Aluno.findByPk(req.params.id);
   try {
@@ -60,7 +60,7 @@ router.put('/alunos/:id', async (req, res) => {
   }
 });
 
-router.delete('/alunos/:id', async (req, res) => {
+router.delete('/aluno/:id', async (req, res) => {
   const { id } = req.params;
   const aluno = await Aluno.findOne({ where: { id } });
   try {

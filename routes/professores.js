@@ -19,7 +19,7 @@ router.get("/professor/:id", async (req, res) => {
   }
 });
 
-router.post("/professores", async (req, res) => {
+router.post("/professor", async (req, res) => {
   const { nome, dataNasc, telefone, email, turmaId } = req.body;
 
   try {
@@ -62,7 +62,7 @@ router.put("/professor/:id", async (req, res) => {
   }
 });
 
-router.delete("/professores/:id", async (req,res) => {
+router.delete("/professor/:id", async (req,res) => {
   const {id} = req.params;
   const professor = await Professor.findOne({where: {id}});
   try {

@@ -6,7 +6,7 @@ const { Router } = require("express");
 const router = Router();
 
 //Inserção de turma
-router.post("/turmas", async (req, res) => {
+router.post("/turma", async (req, res) => {
   const { codTurma, turno, disciplina } = req.body;
 
   try {
@@ -24,7 +24,7 @@ router.get("/turmas", async (req, res) => {
 });
 
 //listar uma turma
-router.get("/turmas/:id", async (req, res) => {
+router.get("/turma/:id", async (req, res) => {
   const { id } = req.params;
 
   const turmas = await Turma.findByPk(id);
@@ -35,7 +35,7 @@ router.get("/turmas/:id", async (req, res) => {
   }
 });
 
-router.delete("/turmas/:id", async (req, res) => {
+router.delete("/turma/:id", async (req, res) => {
   const { id } = req.params;
   const turma = await Turma.findOne({ where: { id } });
 
@@ -55,7 +55,7 @@ router.delete("/turmas/:id", async (req, res) => {
 })
 
 //Atualizar a informação da turma
-router.put("/turmas/:id", async (req, res) => {
+router.put("/turma/:id", async (req, res) => {
   const { id } = req.params;
 
   const { codTurma, turno, disciplina } = req.body
