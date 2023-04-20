@@ -2,11 +2,14 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const swagger = require('./swagger');
+
 
 //Configuração APP
 const app = express();
 app.use(express.json()); //Possibilitar transitar dados usando JSON
 app.use(morgan("dev"));
+swagger(app);
 
 //Configuração do Banco de dados
 const { connection, authenticate } = require("./database/database");
