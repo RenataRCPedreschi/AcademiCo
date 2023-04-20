@@ -1,12 +1,27 @@
 const Professor = require("../database/professor");
 const { Router } = require("express");
 const Turma = require("../database/turma");
+const { Op } = require("sequelize");
+
 
 const router = Router();
 
-router.get("/professores", async (req, res) => {
-  const listaProfessores = await Professor.findAll();
-  res.json(listaProfessores);
+router.get('/professores', async (req, res) => {
+  const { nome, dataNasc, telefone, email, turmaId } = req.query;
+  const where = {};
+  
+  if (nome) where.nome = { [Op.like]: `%${nome}%` };
+  if (dataNasc) where.dataNasc = dataNasc;
+  if (telefone) where.telefone = telefone;
+  if (email) where.email = email;
+  if (turmaId) where.turmaId = turmaId;
+  
+  try {
+    const listaProfessores = await Professor.findAll({ where });
+    res.json(listaProfessores);
+  } catch (error) {
+    res.status(500).send('Erro ao buscar alunos');
+  }
 });
 
 router.get("/professor/:id", async (req, res) => {
