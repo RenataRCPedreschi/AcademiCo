@@ -62,4 +62,21 @@ router.put("/professor/:id", async (req, res) => {
   }
 });
 
+router.delete("/professores/:id", async (req,res) => {
+  const {id} = req.params;
+  const professor = await Professor.findOne({where: {id}});
+  try {
+      if(professor) {
+          await professor.destroy();
+          res.status(200).json({message: "Professor deletado com sucesso.", professor})
+      }else{
+          res.status(404).json({message: "Não foi possível excluir, professor não encontrado"})
+      }
+      } catch (err){
+          console.error(err);
+          res.status(500).json({message: "Um erro aconteceu"})
+      }
+  }
+);
+
 module.exports = router;
