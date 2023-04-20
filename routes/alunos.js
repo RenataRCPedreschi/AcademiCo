@@ -81,8 +81,12 @@ router.post("/aluno", async (req, res) => {
   }
     
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Matrícula existente, Impossível cadastrar o mesmo aluno." })
+    console.log(error);
+    if (error.name === 'SequelizeValidationError') {
+      res.status(400).json({ message: error.errors[0].message });
+    } else {
+      res.status(500).json({ message: 'Ocorreu um erro interno.' });
+    }
   }
 });
 
@@ -100,7 +104,7 @@ router.put('/aluno/:id', async (req, res) => {
       res.status(404).json({ message: 'aluno não foi encontrado' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Um erro aconteceu!' });
+    res.status(500).json({ message: 'Um erro aconteceu, O campo deve não pode ser vazio!' });
   }
 });
 

@@ -1,21 +1,20 @@
-const Professor = require("../database/professor");
-const { Router } = require("express");
-const Turma = require("../database/turma");
-const { Op } = require("sequelize");
-
+const Professor = require('../database/professor');
+const { Router } = require('express');
+const Turma = require('../database/turma');
+const { Op } = require('sequelize');
 
 const router = Router();
 
 router.get('/professores', async (req, res) => {
   const { nome, dataNasc, telefone, email, turmaId } = req.query;
   const where = {};
-  
+
   if (nome) where.nome = { [Op.like]: `%${nome}%` };
   if (dataNasc) where.dataNasc = dataNasc;
   if (telefone) where.telefone = telefone;
   if (email) where.email = email;
   if (turmaId) where.turmaId = turmaId;
-  
+
   try {
     const listaProfessores = await Professor.findAll({ where });
     res.json(listaProfessores);
@@ -24,17 +23,17 @@ router.get('/professores', async (req, res) => {
   }
 });
 
-router.get("/professor/:id", async (req, res) => {
+router.get('/professor/:id', async (req, res) => {
   const professor = await Professor.findOne({ where: { id: req.params.id } });
 
   if (professor) {
     res.json(professor);
   } else {
-    res.status(404).json({ message: "Professor não cadastrado!" });
+    res.status(404).json({ message: 'Professor não cadastrado!' });
   }
 });
 
-router.post("/professor", async (req, res) => {
+router.post('/professor', async (req, res) => {
   const { nome, dataNasc, telefone, email, turmaId } = req.body;
 
   try {
@@ -45,21 +44,23 @@ router.post("/professor", async (req, res) => {
         dataNasc,
         telefone,
         email,
-        turmaId,
+        turmaId
       });
       res.status(201).json(novoProf);
     } else {
-      res.status(404).json({ message: "Professor não criado" });
+      res.status(404).json({ message: 'Professor não criado' });
     }
   } catch (error) {
     console.log(error);
-    res
-      .status(404)
-      .json({ message: "Não foi possível cadastrar um novo professor." });
+    if (error.name === 'SequelizeValidationError') {
+      res.status(400).json({ message: error.errors[0].message });
+    } else {
+      res.status(500).json({ message: 'Ocorreu um erro interno.' });
+    }
   }
 });
 
-router.put("/professor/:id", async (req, res) => {
+router.put('/professor/:id', async (req, res) => {
   const { nome, dataNasc, telefone, email } = req.body;
   const { id } = req.params;
 
@@ -67,31 +68,36 @@ router.put("/professor/:id", async (req, res) => {
     const professor = await Professor.findOne({ where: { id } });
     if (professor) {
       await professor.update({ nome, dataNasc, telefone, email });
-      res.status(200).json({ message: "Professor editado com sucesso!" });
+      res.status(200).json({ message: 'Professor editado com sucesso!' });
     } else {
-      res.status(404).json({ message: "Professor não encontrado!" });
+      res.status(404).json({ message: 'Professor não encontrado!' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Um erro aconteceu!" });
+    res
+      .status(500)
+      .json({ message: 'Um erro aconteceu, O campo deve não pode ser vazio!' });
   }
 });
 
-router.delete("/professor/:id", async (req,res) => {
-  const {id} = req.params;
-  const professor = await Professor.findOne({where: {id}});
+router.delete('/professor/:id', async (req, res) => {
+  const { id } = req.params;
+  const professor = await Professor.findOne({ where: { id } });
   try {
-      if(professor) {
-          await professor.destroy();
-          res.status(200).json({message: "Professor deletado com sucesso.", professor})
-      }else{
-          res.status(404).json({message: "Não foi possível excluir, professor não encontrado"})
-      }
-      } catch (err){
-          console.error(err);
-          res.status(500).json({message: "Um erro aconteceu"})
-      }
+    if (professor) {
+      await professor.destroy();
+      res
+        .status(200)
+        .json({ message: 'Professor deletado com sucesso.', professor });
+    } else {
+      res.status(404).json({
+        message: 'Não foi possível excluir, professor não encontrado'
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Um erro aconteceu' });
   }
-);
+});
 
 module.exports = router;

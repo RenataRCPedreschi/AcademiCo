@@ -12,8 +12,13 @@ router.post("/turma", async (req, res) => {
   try {
     const novaTurma = await Turma.create({ codTurma, turno, disciplina });
     res.status(201).json(novaTurma);
-  } catch (err) {
-    res.status(500).json({ message: "Um erro aconteceu." });
+  } catch (error) {
+    console.log(error);
+    if (error.name === 'SequelizeValidationError') {
+      res.status(400).json({ message: error.errors[0].message });
+    } else {
+      res.status(500).json({ message: 'Ocorreu um erro interno.' });
+    }
   }
 });
 
