@@ -33,7 +33,7 @@ Professor.beforeCreate(async (professor, options) => {
   }
 });
 
-Professor.hasOne(Turma);
-Turma.belongsTo(Professor);
+Turma.hasOne(Professor);
+Professor.belongsTo(Turma);
 
 module.exports = Professor;
