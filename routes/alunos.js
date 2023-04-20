@@ -7,6 +7,8 @@ const { Op } = require("sequelize");
 const router = Router();
 
 
+
+
 router.get('/alunos', async (req, res) => {
   const { nome, dataNasc, telefone, email, numMatr, turmaId } = req.query;
   const where = {};
@@ -125,3 +127,50 @@ router.delete('/aluno/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+/**
+ * @swagger
+ * /api/alunos:
+ *   get:
+ *     summary: Retorna uma lista de todos os alunos.
+ *     parameters:
+ *       - name: nome
+ *         in: query
+ *         description: Filtra alunos pelo nome.
+ *         schema:
+ *           type: string
+ *       - name: dataNasc
+ *         in: query
+ *         description: Filtra alunos pela data de nascimento.
+ *         schema:
+ *           type: string
+ *       - name: telefone
+ *         in: query
+ *         description: Filtra alunos pelo telefone.
+ *         schema:
+ *           type: string
+ *       - name: email
+ *         in: query
+ *         description: Filtra alunos pelo email.
+ *         schema:
+ *           type: string
+ *       - name: numMatr
+ *         in: query
+ *         description: Filtra alunos pelo número de matrícula.
+ *         schema:
+ *           type: integer
+ *       - name: turmaId
+ *         in: query
+ *         description: Filtra alunos pelo ID da turma.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Retorna uma lista de todos os alunos encontrados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Aluno'
+ */
