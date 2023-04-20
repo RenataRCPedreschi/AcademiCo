@@ -1,13 +1,57 @@
 const Aluno = require("../database/aluno");
 const { Router } = require("express");
 const Turma = require("../database/turma");
+const { Op } = require("sequelize");
+
 
 const router = Router();
 
+
 router.get('/alunos', async (req, res) => {
-  const listaAlunos = await Aluno.findAll();
-  res.status(200).json(listaAlunos);
+  const { nome, dataNasc, telefone, email, numMatr, turmaId } = req.query;
+  const where = {};
+  
+  if (nome) where.nome = { [Op.like]: `%${nome}%` };
+  if (dataNasc) where.dataNasc = dataNasc;
+  if (telefone) where.telefone = telefone;
+  if (email) where.email = email;
+  if (numMatr) where.numMatr = numMatr;
+  if (turmaId) where.turmaId = turmaId;
+  
+  try {
+    const listaAlunos = await Aluno.findAll({ where });
+    res.json(listaAlunos);
+  } catch (error) {
+    res.status(500).send('Erro ao buscar alunos');
+  }
 });
+
+
+
+router.get('/alunos/turma/:id', async (req, res) => {
+  const turmaId = req.params.id;
+
+  // Busca a turma pelo ID e verifica se ela existe
+  const turma = await Turma.findByPk(turmaId);
+  if (!turma) {
+    return res.status(404).json({ message: 'Turma não encontrada.' });
+  }
+
+  // Busca os alunos que pertencem à turma
+  const alunos = await Aluno.findAll({
+    include: [
+      {
+        model: Turma,
+        where: { id: turmaId }
+      }
+    ]
+  });
+
+  // Retorna os alunos encontrados
+  res.status(200).json(alunos);
+
+})
+
 
 router.get('/aluno/:id', async (req, res) => {
   const aluno = await Aluno.findOne({
