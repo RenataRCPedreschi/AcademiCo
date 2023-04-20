@@ -1,15 +1,16 @@
 //Importações principais e variáveis de ambiente
 require("dotenv").config();
-const express = require("express");
 const morgan = require("morgan");
-const swagger = require('./swagger');
-
+const express = require("express"),
+  bodyParser = require("body-parser"),
+  swaggerJsdoc = require("swagger-jsdoc"),
+  swaggerUi = require("swagger-ui-express");
 
 //Configuração APP
 const app = express();
 app.use(express.json()); //Possibilitar transitar dados usando JSON
 app.use(morgan("dev"));
-swagger(app);
+
 
 //Configuração do Banco de dados
 const { connection, authenticate } = require("./database/database");
@@ -17,13 +18,48 @@ authenticate(connection); //efetivar a conexão
 
 //Definição de rotas
 
-const rotaProfessores = require ("./routes/professores")
-const rotaAlunos = require ("./routes/alunos")
+const rotaProfessores = require("./routes/professores");
+const rotaAlunos = require("./routes/alunos");
 const rotaTurmas = require("./routes/turmas");
 
 app.use(rotaProfessores);
 app.use(rotaAlunos);
 app.use(rotaTurmas);
+
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "AcademiCo - Gestão Escolar",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "AcademiCo",
+        url: "https://academico.com",
+        email: "info@email.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs,{ explorer: true })
+);
 
 
 
