@@ -35,4 +35,23 @@ router.get("/turmas/:id", async (req, res) => {
   }
 });
 
+router.delete("/turmas/:id", async (req, res) => {
+  const { id} = req.params;
+  const turma = await Turma.findOne({ where: { id } });
+
+  try{
+    if(turma){
+      await turma.destroy();
+      res.status(200).json({message: "Turma removida com sucesso!"})
+    } else {
+      res.status(404).json ({message: "Turma não encontrada!"})
+    }
+
+  } catch(err){
+    console.error(err);
+    res.status(500).json({message: "Um erro aconteceu!"})
+  }
+
+})
+
 module.exports = router;
