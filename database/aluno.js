@@ -1,6 +1,7 @@
 // DataTypes = serve para definir qual o tipo da coluna
 const { DataTypes } = require("sequelize");
 const { connection } = require("./database");
+const Turma = require("./turma");
 
 const Aluno = connection.define("aluno",{
 nome:{
@@ -28,5 +29,8 @@ numMatr:{
 },
 
 });
+
+
+
 
 module.exports = Aluno;

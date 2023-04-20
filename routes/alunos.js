@@ -1,5 +1,6 @@
 const Aluno = require("../database/aluno");
 const { Router } = require("express");
+const Turma = require("../database/turma");
 
 const router = Router();
 
@@ -23,16 +24,21 @@ router.get("/alunos/:id", async (req, res) => {
 })
 
 router.post("/alunos", async (req, res) => {
-  const { nome, dataNasc, telefone, email, numMatr } = req.body;
+  const { nome, dataNasc, telefone, email, numMatr, turmaId } = req.body;
 
   try {
-    const novoAluno = await Aluno.create(
-      { nome, dataNasc, telefone, email, numMatr }
-    );
+    const turma = await Turma.findByPk(turmaId)
+    if(turma){
+      const novoAluno = await Aluno.create(
+      { nome, dataNasc, telefone, email, numMatr, turmaId });
     res.status(201).json(novoAluno)
+  }else{
+    res.status(404).json({ message: "Aluno não criado"});
+  }
+    
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Matrícula extistente, Impossível cadastra o mesmo aluno." })
+    res.status(500).json({ message: "Matrícula existente, Impossível cadastrar o mesmo aluno." })
   }
 })
 router.put("/alunos/:id", async (req, res) => {
