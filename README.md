@@ -14,3 +14,6 @@ Extras:
 2. Aplicar validações aos campos do Sequelize;
 3. Implementação de documentação do Swagger para documentação
 automática;
+
+Link Swagger API-Doc
+http://localhost:3000/api-docs/
