@@ -18,22 +18,23 @@
  *           type: dateonly
  *           allowNull: false
  *           validate: {notEmpty: {msg: "A data de nascimento é obrigatória."}, isDate: {msg: "A data de nascimento deve estar no formato yyyy-mm-dd."}}
- *           description: Nascimento aluno
+ *           description: Nascimento do aluno
  *         telefone:
  *           type: string
  *           allowNull: false
- *           validate: {notEmpty: {msg: msg: "A data de nascimento é obrigatória."}, len: [1,18]}
- *           description: telefone do aluno
+ *           validate: {notEmpty: {msg: "O telefone é obrigatório"}, len: [1,18], msg: "O telefone deve ter entre 1 e 18 caracteres."}
+ *           description: Telefone do aluno
  *         email:
  *           type: string
  *           allowNull: false
- *           validate: {len: [10,15]}
- *           description: email do aluno
+ *           validate: {notEmpty: {msg: "O e-mail é obrigatório."}, isEmail: {msg: "O e-mail informado não é válido."}}
+ *           description: Email do aluno
  *         numMatr:
  *           type: string
  *           allowNull: false
- *           validate: {len: [10,15]}
- *           description: Numero de entregador
+ *           unique: true
+ *           validate: {notEmpty: {msg: "O número de matrícula é obrigatório."}, len: [10,15], msg: "O número de matrícula deve ter entre 1 e 12 caracteres."}
+ *           description: Numero de matricula do aluno
  *         createdAt:
  *           type: string
  *           format: date
@@ -111,6 +112,40 @@ router.get("/alunos", async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: O API de Gestão Escolar
+ * /alunos/turma/{id}:
+ *   get:
+ *     summary: Filtra os alunos por turma
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/alunos/turma/{id}'
+ *     responses:
+ *       404:
+ *         description: Turma não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/alunos/turma/{id}'
+ *       500:
+ *         description: Ocorreu um erro interno.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/alunos/turma/{id}'
+ *  
+ */
+
+
+
 router.get("/alunos/turma/:id", async (req, res) => {
   const turmaId = req.params.id;
 
@@ -134,6 +169,33 @@ router.get("/alunos/turma/:id", async (req, res) => {
   res.status(200).json(alunos);
 });
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: O API de Gestão Escolar
+ * /aluno/{id}:  
+ *   get:  
+ *     summary: Busca o aluno por id
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/aluno/{id}'
+ *     responses:
+ *       404:
+ *         description: Aluno não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *  
+ */
+
+
 router.get("/aluno/:id", async (req, res) => {
   const aluno = await Aluno.findOne({
     where: { id: req.params.id },
@@ -145,6 +207,46 @@ router.get("/aluno/:id", async (req, res) => {
     res.status(404).json({ message: "Aluno não encontrado." });
   }
 });
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: O API de Gestão Escolar
+ * /aluno:
+ *   post:
+ *     summary: Cria um novo aluno
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/aluno'
+ *     responses:
+ *       200:
+ *         description: Cria um novo aluno
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno'
+ *       404:
+ *         description: Aluno não criado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno'
+ *       500:
+ *         description: Ocorreu um erro interno.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno'
+ *  
+ */
+
+
 
 router.post("/aluno", async (req, res) => {
   const { nome, dataNasc, telefone, email, numMatr, turmaId } = req.body;
@@ -174,6 +276,46 @@ router.post("/aluno", async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: O API de Gestão Escolar
+ * /aluno/{id}:
+ *   put:
+ *     summary: Edita as informações de um aluno
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/aluno/{id}'
+ *     responses:
+ *       200:
+ *         description: Edita as informações de um aluno
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *       404:
+ *         description: Aluno não foi encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *       500:
+ *         description: Ocorreu um erro interno.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *  
+ */
+
+
+
 router.put("/aluno/:id", async (req, res) => {
   const { nome, dataNasc, telefone, email, numMatr } = req.body;
   const aluno = await Aluno.findByPk(req.params.id);
@@ -193,6 +335,45 @@ router.put("/aluno/:id", async (req, res) => {
       .json({ message: "Um erro aconteceu, O campo deve não pode ser vazio!" });
   }
 });
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: O API de Gestão Escolar
+ * /aluno/{id}:
+ *   delete:
+ *     summary: Deleta o aluno específico
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/aluno/{id}'
+ *     responses:
+ *       200:
+ *         description: Deleta o aluno específico
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *       404:
+ *         description: Aluno não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *       500:
+ *         description: Ocorreu um erro interno.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/aluno/{id}'
+ *  
+ */
+
 
 router.delete("/aluno/:id", async (req, res) => {
   const { id } = req.params;
