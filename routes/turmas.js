@@ -1,3 +1,48 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Turmas: 
+ *       type: object
+ *       required:
+ *       properties:
+ *         id:
+ *           type: bigint
+ *           description: É automaticamente gerado um ID para a turma 
+ *         CodTurma: 
+ *           type: string  
+ *           allowNull: false  
+ *           validate: {notEmpty: {msg: "O código da turma é obrigatório."}} 
+ *           description: Nome do Aluno 
+ *         turno:
+ *           type: string
+ *           allowNull: false
+ *           validate: {notEmpty: {msg: "O turno é obrigatório."}}
+ *           description: Turno da turma
+ *         disciplina:
+ *           type: string
+ *           allowNull: false
+ *           validate: {notEmpty: {msg: "A disciplina é obrigatória."}}
+ *           description: disciplina da turma
+ *         createdAt:
+ *           type: string
+ *           format: date
+ *           description: Data que o aluno foi cadastrado na plataforma
+ *         updatedAt:
+ *           type: string
+ *           format: date
+ *           description: Ultima data que os dados do aluno foram atualizados
+ *       example:  
+ *         id: 1
+ *         codTurma: 520
+ *         turno: noite
+ *         disciplina: programação
+ *         createdAt: 2023-04-20T14:23:41.438Z
+ *         updatedAt: 2023-04-20T14:23:41.438Z
+ *        
+ */
+
+
 const Aluno = require("../database/aluno");
 const Professor = require("../database/professor");
 const Turma = require("../database/turma");
@@ -5,7 +50,35 @@ const { Router } = require("express");
 
 const router = Router();
 
-//Inserção de turma
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Turmas
+ *   description: O API de Gestão Escolar
+ * /turma:  
+ *   post:  
+ *     summary: Cria uma nova turma.
+ *     tags: [Turmas]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/turma'
+ *     responses:
+ *       400:
+ *         description: Mensagem personalizada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma'
+ *  
+ */
+
+
+
 router.post("/turma", async (req, res) => {
   const { codTurma, turno, disciplina } = req.body;
 
@@ -22,13 +95,68 @@ router.post("/turma", async (req, res) => {
   }
 });
 
-//listar turmas
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Turmas
+ *   description: O API de Gestão Escolar
+ * /turmas:  
+ *   get:  
+ *     summary: Lista todas as turmas
+ *     tags: [Turmas]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/turmas'
+ *     responses:
+ *       404:
+ *         description: Turma não encontrada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turmas'
+ *  
+ */
+
+
+
 router.get("/turmas", async (req, res) => {
   const listaTurmas = await Turma.findAll();
   res.json(listaTurmas);
 });
 
-//listar uma turma
+
+/**
+ * @swagger
+ * tags:
+ *   name: Turmas
+ *   description: O API de Gestão Escolar
+ * /turma/{id}:  
+ *   get:  
+ *     summary: Busca a turma por ID.
+ *     tags: [Turmas]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/turma/{id}'
+ *     responses:
+ *       404:
+ *         description: Turma não encontrada!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma/{id}'
+ *  
+ */
+
+
+
 router.get("/turma/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -39,6 +167,40 @@ router.get("/turma/:id", async (req, res) => {
     res.status(404).json({ message: "Turma não encontrada." });
   }
 });
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Turmas
+ *   description: O API de Gestão Escolar
+ * /turma/{id}:  
+ *   delete:  
+ *     summary: Deleta a turma.
+ *     tags: [Turmas]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/turma/{id}'
+ *     responses:
+ *       200: 
+ *         description: Turma removida com sucesso!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma/{id}'
+ *       404:
+ *         description: Turma não encontrada!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma/{id}'
+ *  
+ */
+
 
 router.delete("/turma/:id", async (req, res) => {
   const { id } = req.params;
@@ -59,7 +221,40 @@ router.delete("/turma/:id", async (req, res) => {
 
 })
 
-//Atualizar a informação da turma
+
+/**
+ * @swagger
+ * tags:
+ *   name: Turmas
+ *   description: O API de Gestão Escolar
+ * /turma/{id}:  
+ *   put:  
+ *     summary: Edita a turma.
+ *     tags: [Turmas]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/turma/{id}'
+ *     responses:
+ *       200: 
+ *         description: Turma atualizada com sucesso!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma/{id}'
+ *       404:
+ *         description: Turma não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/turma/{id}'
+ *  
+ */
+
+
+
 router.put("/turma/:id", async (req, res) => {
   const { id } = req.params;
 

@@ -1,9 +1,88 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Professores: 
+ *       type: object
+ *       required:
+ *       properties:
+ *         id:
+ *           type: bigint
+ *           description: É automaticamente gerado um ID para o professor 
+ *         nome: 
+ *           type: string  
+ *           allowNull: false  
+ *           validate: {notEmpty: {msg: "O nome é obrigatório."}, len: {args: [2, 100], msg: "O nome deve ter entre 2 e 100 caracteres."}} 
+ *           description: Nome do Professor 
+ *         dataNasc:
+ *           type: dateonly
+ *           allowNull: false
+ *           validate: {notEmpty: {msg: "Por favor, insira a data de nascimento do professor."}, isDate: {msg: "Por favor, insira uma data de nascimento válida."}}
+ *           description: Nascimento do professor
+ *         telefone:
+ *           type: string
+ *           allowNull: false
+ *           validate: {notEmpty: {msg: "Por favor, insira o telefone do professor."}, len: [1,18], {msg: "O telefone do professor deve ter entre 1 e 18 caracteres."}}
+ *           description: telefone do professor
+ *         email:
+ *           type: string
+ *           allowNull: false
+ *           validate: {notEmpty: {msg: "Por favor, insira o e-mail do professor."}, isEmail: {msg: "Por favor, insira um e-mail válido."}}
+ *           description: email do aluno
+ *         createdAt:
+ *           type: string
+ *           format: date
+ *           description: Data que o professor foi cadastrado na plataforma
+ *         updatedAt:
+ *           type: string
+ *           format: date
+ *           description: Ultima data que os dados do professor foram atualizados
+ *       example:  
+ *         id: 1
+ *         nome: João
+ *         dataNasc: 2000-05-30
+ *         telefone: (11) 95544-3322
+ *         email: joao@gmail.com
+ *         createdAt: 2023-04-20T14:23:41.438Z
+ *         updatedAt: 2023-04-20T14:23:41.438Z
+ *        
+ */
+
+
 const Professor = require("../database/professor");
 const { Router } = require("express");
 const Turma = require("../database/turma");
 const { Op } = require("sequelize");
 
 const router = Router();
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Professores
+ *   description: O API de Gestão Escolar
+ * /professores:  
+ *   get:  
+ *     summary: Lista todos os professores
+ *     tags: [Professores]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/professores'
+ *     responses:
+ *       500:
+ *         description: Erro ao buscar os professores.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professores'
+ *  
+ */
+
 
 router.get("/professores", async (req, res) => {
   const { nome, dataNasc, telefone, email, turmaId } = req.query;
@@ -19,9 +98,36 @@ router.get("/professores", async (req, res) => {
     const listaProfessores = await Professor.findAll({ where });
     res.json(listaProfessores);
   } catch (error) {
-    res.status(500).send("Erro ao buscar alunos");
+    res.status(500).send("Erro ao buscar os professores");
   }
 });
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Professores
+ *   description: O API de Gestão Escolar
+ * /professor/{id}:  
+ *   get:  
+ *     summary: Lista o professor por ID.
+ *     tags: [Professores]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/professor/{id}'
+ *     responses:
+ *       404:
+ *         description: Professor não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}'
+ *  
+ */
+
 
 router.get("/professor/:id", async (req, res) => {
   const professor = await Professor.findOne({ where: { id: req.params.id } });
@@ -32,6 +138,45 @@ router.get("/professor/:id", async (req, res) => {
     res.status(404).json({ message: "Professor não cadastrado!" });
   }
 });
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Professores
+ *   description: O API de Gestão Escolar
+ * /professores:  
+ *   post:  
+ *     summary: Cadastra um novo professor.
+ *     tags: [Professores]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/professor'
+ *     responses:
+ *       200: 
+ *         description: Professor criado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor'
+ *       400:
+ *         description: Mensagem personalizada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor'
+ *       500:
+ *         description: Um erro interno aconteceu.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor'
+ *  
+ */
+
 
 router.post("/professor", async (req, res) => {
   const { nome, dataNasc, telefone, email, turmaId } = req.body;
@@ -60,6 +205,44 @@ router.post("/professor", async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Professores
+ *   description: O API de Gestão Escolar
+ * /professor/{id}:  
+ *   put:  
+ *     summary: Edita as informações do professor.
+ *     tags: [Professores]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/professor/{id}'
+ *     responses:
+ *       200: 
+ *         description: Professor editado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}' 
+ *       404:
+ *         description: Professor não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}'
+ *       500:
+ *         description: Um erro aconteceu, O campo deve não pode ser vazio!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}'
+ */
+
+
 router.put("/professor/:id", async (req, res) => {
   const { nome, dataNasc, telefone, email } = req.body;
   const { id } = req.params;
@@ -79,6 +262,45 @@ router.put("/professor/:id", async (req, res) => {
       .json({ message: "Um erro aconteceu, O campo deve não pode ser vazio!" });
   }
 });
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Professores
+ *   description: O API de Gestão Escolar
+ * /professor/{id}:  
+ *   delete:  
+ *     summary: Deleta o professor.
+ *     tags: [Professores]
+ *     requestBody:
+ *       required: true  
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/professor/{id}'
+ *     responses:
+ *       200: 
+ *         description: Professor deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}' 
+ *       404:
+ *         description: Não foi possível excluir, professor não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}'
+ *       500:
+ *         description: Um erro aconteceu.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/professor/{id}'
+ */
+
 
 router.delete("/professor/:id", async (req, res) => {
   const { id } = req.params;
