@@ -66,14 +66,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/turma'
+ *             $ref: '#/components/schemas/Turmas'
  *     responses:
  *       400:
  *         description: Mensagem personalizada.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma'
+ *               $ref: '#/components/schemas/Turmas'
  *  
  */
 
@@ -111,14 +111,14 @@ router.post("/turma", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/turmas'
+ *             $ref: '#/components/schemas/Turmas'
  *     responses:
  *       404:
  *         description: Turma não encontrada.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turmas'
+ *               $ref: '#/components/schemas/Turmas'
  *  
  */
 
@@ -144,14 +144,14 @@ router.get("/turmas", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/turma/{id}'
+ *             $ref: '#/components/schemas/Turmas'
  *     responses:
  *       404:
  *         description: Turma não encontrada!
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma/{id}'
+ *               $ref: '#/components/schemas/Turmas'
  *  
  */
 
@@ -184,20 +184,20 @@ router.get("/turma/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/turma/{id}'
+ *             $ref: '#/components/schemas/Turmas'
  *     responses:
  *       200: 
  *         description: Turma removida com sucesso!
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma/{id}'
+ *               $ref: '#/components/schemas/Turmas'
  *       404:
  *         description: Turma não encontrada!
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma/{id}'
+ *               $ref: '#/components/schemas/Turmas'
  *  
  */
 
@@ -236,20 +236,20 @@ router.delete("/turma/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/turma/{id}'
+ *             $ref: '#/components/schemas/Turmas'
  *     responses:
  *       200: 
  *         description: Turma atualizada com sucesso!
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma/{id}'
+ *               $ref: '#/components/schemas/Turmas'
  *       404:
  *         description: Turma não encontrada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/turma/{id}'
+ *               $ref: '#/components/schemas/Turmas'
  *  
  */
 

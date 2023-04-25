@@ -72,14 +72,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/professores'
+ *             $ref: '#/components/schemas/Professores'
  *     responses:
  *       500:
  *         description: Erro ao buscar os professores.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professores'
+ *               $ref: '#/components/schemas/Professores'
  *  
  */
 
@@ -117,14 +117,14 @@ router.get("/professores", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/professor/{id}'
+ *             $ref: '#/components/schemas/Professores'
  *     responses:
  *       404:
  *         description: Professor não encontrado.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}'
+ *               $ref: '#/components/schemas/Professores'
  *  
  */
 
@@ -154,26 +154,26 @@ router.get("/professor/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/professor'
+ *             $ref: '#/components/schemas/Professores'
  *     responses:
  *       200: 
  *         description: Professor criado.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor'
+ *               $ref: '#/components/schemas/Professores'
  *       400:
  *         description: Mensagem personalizada.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor'
+ *               $ref: '#/components/schemas/Professores'
  *       500:
  *         description: Um erro interno aconteceu.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor'
+ *               $ref: '#/components/schemas/Professores'
  *  
  */
 
@@ -220,26 +220,26 @@ router.post("/professor", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/professor/{id}'
+ *             $ref: '#/components/schemas/Professores'
  *     responses:
  *       200: 
  *         description: Professor editado com sucesso.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}' 
+ *               $ref: '#/components/schemas/Professores' 
  *       404:
  *         description: Professor não encontrado.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}'
+ *               $ref: '#/components/schemas/Professores'
  *       500:
  *         description: Um erro aconteceu, O campo deve não pode ser vazio!
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}'
+ *               $ref: '#/components/schemas/Professores'
  */
 
 
@@ -279,26 +279,26 @@ router.put("/professor/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/professor/{id}'
+ *             $ref: '#/components/schemas/Professores'
  *     responses:
  *       200: 
  *         description: Professor deletado com sucesso.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}' 
+ *               $ref: '#/components/schemas/Professores' 
  *       404:
  *         description: Não foi possível excluir, professor não encontrado.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}'
+ *               $ref: '#/components/schemas/Professores'
  *       500:
  *         description: Um erro aconteceu.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/professor/{id}'
+ *               $ref: '#/components/schemas/Professores'
  */
 
 

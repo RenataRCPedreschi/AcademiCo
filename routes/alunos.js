@@ -76,20 +76,20 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/alunos'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       200: 
  *         description: Busca da lista alunos.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/alunos'
+ *               $ref: '#/components/schemas/Alunos'
  *       500:
  *         description: Ocorreu um erro ao buscar o aluno.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/alunos'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
@@ -127,20 +127,20 @@ router.get("/alunos", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/alunos/turma/{id}'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       404:
  *         description: Turma não encontrada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/alunos/turma/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *       500:
  *         description: Ocorreu um erro interno.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/alunos/turma/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
@@ -184,14 +184,14 @@ router.get("/alunos/turma/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/aluno/{id}'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       404:
  *         description: Aluno não encontrado.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
@@ -223,26 +223,26 @@ router.get("/aluno/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/aluno'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       200:
  *         description: Cria um novo aluno
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno'
+ *               $ref: '#/components/schemas/Alunos'
  *       404:
  *         description: Aluno não criado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno'
+ *               $ref: '#/components/schemas/Alunos'
  *       500:
  *         description: Ocorreu um erro interno.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
@@ -291,26 +291,26 @@ router.post("/aluno", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/aluno/{id}'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       200:
  *         description: Edita as informações de um aluno
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *       404:
  *         description: Aluno não foi encontrado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *       500:
  *         description: Ocorreu um erro interno.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
@@ -351,26 +351,26 @@ router.put("/aluno/:id", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/aluno/{id}'
+ *             $ref: '#/components/schemas/Alunos'
  *     responses:
  *       200:
  *         description: Deleta o aluno específico
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *       404:
  *         description: Aluno não encontrado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *       500:
  *         description: Ocorreu um erro interno.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/aluno/{id}'
+ *               $ref: '#/components/schemas/Alunos'
  *  
  */
 
